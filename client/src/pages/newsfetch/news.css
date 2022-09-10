@@ -1,0 +1,10 @@
+.divide{
+  display: flex;
+}
+  .app {
+    width: 39em;
+    display: grid;
+    gap: 1em;
+    margin: 3em;
+  }
+  
