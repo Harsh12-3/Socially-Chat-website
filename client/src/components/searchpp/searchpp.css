@@ -1,0 +1,12 @@
+.feed{
+    flex:5.5
+}
+
+.feedWrapper{
+    padding: 20px;
+}
+
+
+.nothing{
+    color: rgb(224, 220, 220);
+}

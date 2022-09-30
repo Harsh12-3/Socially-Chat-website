@@ -21,7 +21,9 @@ export default function Sidebar() {
   const history = useHistory();
 const {user}=useContext(AuthContext);
 const [User,setUser]=useState([]);
-const [Conver,setConversation]=useState([]);
+const [conv,setConv]=useState([]);
+const [set, setState] = useState(new Set())
+const [count, setCount] = useState(0)
 
 useEffect(() => {
     
@@ -38,21 +40,49 @@ useEffect(() => {
 
   }, []);
 
+
   
+useEffect(() => {
+    
+  const getUser = async () => {
+    try {
+      const res = await axios.get("/friends/" + user._id);
+      setConv(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  getUser();
 
 
+}, []);
 
+
+const deleteuser = async (e) => {
+
+  history.push("/deleteuser");
+}
   const messenger = async (e) => {
 
     history.push("/messenger");
   }
   const getevery = async (e) => {
-console.log("Harsh");
+
     history.push("/allpost");
   }
 
+  const showlist = async (e) => {
+
+    {conv.map((u) => (
+   
+        setState(prev => new Set(prev.add(u.friendId2)))
+    
+      ))}
+   setCount((prev => (prev+1)%2));    
+  }
+    
   const update = async (e) => {
-    console.log("Harsh");
+   
         history.push("/update");
       }
     
@@ -94,12 +124,13 @@ console.log("Harsh");
           </li>
     
     
+          
+          <li className="sidebarListItem" onClick={deleteuser}>
+            <HelpOutline className="sidebarIcon" />
+            <span className="sidebarListItemText">Manage account</span>
+          </li>
           {/*
    
-          <li className="sidebarListItem">
-            <HelpOutline className="sidebarIcon" />
-            <span className="sidebarListItemText">Questions</span>
-          </li>
           <li className="sidebarListItem">
             <WorkOutline className="sidebarIcon" />
             <span className="sidebarListItemText">Jobs</span>
@@ -113,17 +144,19 @@ console.log("Harsh");
             <span className="sidebarListItemText">Courses</span>
           </li>*/}
         </ul>
-        <button className="sidebarButton">Suggestion</button>
+        <button className="sidebarButton" onClick={showlist}>Suggestion</button>
         <hr className="sidebarHr" />
-        <ul className="sidebarFriendList">
-        
-         
-          {User.map((u) => (
-         u._id!==user._id && <CloseFriend key={u.id} user1={u} />
-         
-          ))}
-        </ul>
-      </div>
+  
+  
+        {count!==0 && <ul className="sidebarFriendList">
+       {User.map((u) => (
+          
+       u._id!==user._id && !set.has(u._id) && <CloseFriend key={u.id} user1={u} />
+       
+        ))}
+      </ul>
+}
+  </div>
     </div>
   );
 }

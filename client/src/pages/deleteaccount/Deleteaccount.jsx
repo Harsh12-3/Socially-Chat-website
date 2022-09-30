@@ -1,5 +1,5 @@
 import { useContext, useRef} from "react";
-import "./login.css";
+import "./deleteaccount.css";
 import { loginCall } from "../../apiCalls";
 import { AuthContext } from "../../context/AuthContext";
 import { CircularProgress } from "@material-ui/core";
@@ -10,28 +10,39 @@ import { useState,useEffect } from "react";
 import MuiAlert from "@material-ui/lab/Alert";
 
 
-export default function Login() {
+export default function Deleteaccount() {
   const email = useRef();
   const password = useRef();
   const history=useHistory();
   const { isFetching, dispatch } = useContext(AuthContext);
-  const[alert,setalert]=useState("0");
+  const[alert,setalert]=useState("1");
   const handleClick = async(e) => {
     e.preventDefault();
 try{
-  const userCredential=({email: email.current.value, password: password.current.value});
-  const res = await axios.post("/auth/login", userCredential);
-  loginCall(
-    { email: email.current.value, password: password.current.value },
-    dispatch
-  );
-
-
+  const p=({email: email.current.value});
+  const res = await axios.delete("http://localhost:8800/api/users/userrr/" + email.current.value,p);
+  handlesignout();
+history.push("/register");
 }catch(err){
-  setalert("true");
+console.log(err);
 }
 
   }
+
+  function handlesignout(){
+    
+    const logoutCall = async (dispatch) => {
+      try{
+      dispatch({ type: "LOGOUT" });
+       
+      } catch (err) {
+          dispatch({ type: "LOGIN_FAILURE", payload: err });
+        }
+      };
+        
+  logoutCall(dispatch);    
+    }
+
 
   function Alert(props) {
     return <MuiAlert elevation={6} 
@@ -57,7 +68,7 @@ setalert("0");
 
 <div>
 
-{(alert!=="0") && <Alert onClose={reloadpage} severity="error">Either password or email is invalid</Alert>}
+{(alert!=="0") && <Alert onClose={reloadpage} severity="error">Are you sure you want to delete your account</Alert>}
     <div className="login">
       <div className="loginWrapper">
         <div className="loginLeft">
@@ -90,7 +101,7 @@ setalert("0");
               {isFetching ? (
                 <CircularProgress color="white" size="20px" />
               ) : (
-                "Log In"
+                "Remove account"
               )}
             </button>
             <span className="loginForgot">Forgot Password?</span>

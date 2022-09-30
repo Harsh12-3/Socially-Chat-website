@@ -17,15 +17,15 @@ export default function Profile() {
  
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get("http://localhost:8800/api/users/ff/" + user._id);
+      const res = await axios.get("http://localhost:8800/api/users/find1111/" + username);
       setUser(res.data);
     };
     fetchUser();
-  }, [user._id]);
+  }, [username]);
 
   return (
     <>
-      <Topbar />
+       <Topbar />
       <div className="profile">
         <Sidebar />
         <div className="profileRight">
@@ -34,8 +34,8 @@ export default function Profile() {
               <img
                 className="profileCoverImg"
                 src={
-                  user1.coverPicture
-                    ? PF + user1.coverPicture
+                  user1[0]
+                    ? PF + user1[0].coverPicture
                     : PF + "person/noCover.png"
                 }
                 alt=""
@@ -43,21 +43,21 @@ export default function Profile() {
               <img
                 className="profileUserImg"
                 src={
-                  user1.profilePicture
-                    ? PF + user1.profilePicture
+                  user1[0]
+                  ? PF + user1[0].profilePicture
                     : PF + "person/noAvatar.png"
                 }
                 alt=""
               />
             </div>
             <div className="profileInfo">
-              <h4 className="profileInfoName">{user1.username}</h4>
-              <span className="profileInfoDesc">{user1.desc}</span>
+              <h4 className="profileInfoName">{user1[0]?user1[0].username:"null"}</h4>
+              <span className="profileInfoDesc">{user1[0]?user1[0].desc:"null"}</span>
             </div>
           </div>
           <div className="profileRightBottom">
             <Feed username={username} />
-            <Rightbar user={user1} />
+            <Rightbar user={user1[0]} />
           </div>
         </div>
       </div>

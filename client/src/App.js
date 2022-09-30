@@ -18,7 +18,9 @@ import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import Messenger from "./pages/messenger/Messenger";
 import News from "./pages/newsfetch/News";
-
+import Search from "./pages/searchiteam/Search";
+import Notify from "./pages/notification/Notify";
+import Deleteuser from "./pages/deleteaccount/Deleteaccount";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -36,12 +38,25 @@ function App() {
         </Route>
         <Route exact path="/videos">
         < Videohome/>
+        </Route>
        
+        <Route exact path="/notify">
+        < Notify/>
+        </Route>
        
+       <Route exact path="/deleteuser">
+       < Deleteuser/>
+     
+      
         </Route>
         <Route exact path="/update">
         < Update/>
         </Route>
+        <Route exact path="/search">
+        < Search/>
+        </Route>
+       
+       
         <Route exact path="/todo">
         < Todo/>
         </Route>

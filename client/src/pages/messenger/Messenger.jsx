@@ -16,7 +16,7 @@ export default function Messenger() {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const socket = useRef();
-  const { user } = useContext(AuthContext);
+  const { user,dispatch } = useContext(AuthContext);
   const scrollRef = useRef();
 
   useEffect(() => {
@@ -27,7 +27,26 @@ export default function Messenger() {
         text: data.text,
         createdAt: Date.now(),
       });
+
+    
+        const notify = async (dispatch) => {
+          try{
+           
+            dispatch({ type: "NOTIFICATION" , payload:data.senderId});
+      
+          }catch(err){
+              console.log(err);
+            }
+         
+       
+          
+      
+          };
+        
+      notify(dispatch);    
+      
     });
+
   }, []);
 
   useEffect(() => {

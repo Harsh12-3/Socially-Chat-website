@@ -10,6 +10,10 @@ const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const todoRoute = require("./routes/todo");
 const videoss = require("./routes/videos");
+const Comments = require("./routes/comments");
+const Friends = require("./routes/friends");
+
+
 
 const conversationRoute = require("./routes/conversations");
 const messageRoute = require("./routes/messages");
@@ -86,6 +90,9 @@ app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 app.use("/api/todo", todoRoute);
 app.use("/api/videoss", videoss);
+app.use("/api/comments", Comments);
+app.use("/api/friends",Friends);
+
 
 
 app.listen(8800, () => {

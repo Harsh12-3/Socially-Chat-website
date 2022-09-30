@@ -19,7 +19,6 @@ export default function Every() {
           })
         ); 
       }catch(err){
-        console.log("Yessssss");
           console.log(err);
         }
         

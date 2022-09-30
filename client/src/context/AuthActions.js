@@ -28,3 +28,10 @@ export const LOGOUT = () => ({
 export const remove=()=>({
 type: "LOGIN_remove"
 });
+export const search=()=>({
+  type: "LOGIN_SEARCH"
+  });
+  export const setnotification=()=>({
+    type: "NOTIFICATION"
+    });
+  

@@ -7,12 +7,14 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { Add, Remove } from "@material-ui/icons";
 import Showfriends from "../showfriends/Showfriends";
+import { useHistory } from "react-router";
+
 
 export default function Rightbar({ user }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const [friends, setFriends] = useState([]);
-  const [birthday, setbirthday] = useState([]);
   
+  const [birthday, setbirthday] = useState([]);
+  const history = useHistory();
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const [followed, setFollowed] = useState(
     user && currentUser.followings.includes(user?.id)
@@ -34,50 +36,64 @@ useEffect(()=>{
 
 
 
-},[user]);
+},[currentUser]);
 
-  useEffect(() => {
-    const getFriends = async () => {
-      try {
-        const friendList = await axios.get("/users/friends/" + user._id);
-        setFriends(friendList.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getFriends();
-  }, [user]);
-
-  useEffect(() => {
-    const getFriends = async () => {
-      try {
-        const friendList = await axios.get("/users/friends/" + user._id);
-        setFriends(friendList.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getFriends();
-  }, []);
-
+  
 
   const handleClick = async () => {
-    try {
-      if (followed) {
-        await axios.put(`/users/${user._id}/unfollow`, {
-          userId: currentUser._id,
-        });
-        dispatch({ type: "UNFOLLOW", payload: user._id });
-      } else {
-        await axios.put(`/users/${user._id}/follow`, {
-          userId: currentUser._id,
-        });
-        dispatch({ type: "FOLLOW", payload: user._id });
+  
+      const con={
+        senderId:currentUser._id,
+        receiverId:user._id,
       }
-      setFollowed(!followed);
-    } catch (err) {
-    }
-  };
+    
+      const con1={
+        friendId1:currentUser._id,
+        friendId2:user._id,
+      }
+      
+      const con2={
+        friendId1:user._id,
+        friendId2:currentUser._id,
+      }
+    
+      try{
+        const res1 = await axios.post("/friends",con1);
+      
+      
+      }catch(err){
+      console.log(err);
+      }
+      
+      try{
+        const res1 = await axios.post("/friends",con2);
+      
+      
+      }catch(err){
+      console.log(err);
+      }
+      
+    
+    
+    
+    
+      const res1 = await axios.post("/conversations",con);
+            
+      
+          const message = {
+            sender: currentUser._id,
+            text: 'Hi I am Harsh wana be my friend',
+            conversationId: res1._id,
+          };
+      
+          try {
+            const res = await axios.post("/messages", message);
+       history.push("/messenger");
+          } catch (err) {
+            console.log(err);
+          }
+        };  
+  
 
   const HomeRightbar = () => {
     return (
@@ -101,13 +117,26 @@ useEffect(()=>{
   };
 
   const ProfileRightbar = () => {
+    const [friends, setFriends] = useState([]);
+    
+    useEffect(() => {
+      const getFriends = async () => {
+        try {
+          const friendList = await axios.get("/conversations/" + user._id);
+          setFriends(friendList.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getFriends();
+    }, [user]);
+  
     return (
       <>
         {user.username !== currentUser.username && (
           <button className="rightbarFollowButton" onClick={handleClick}>
-            {followed ? "Unfollow" : "Follow"}
-            {followed ? <Remove /> : <Add />}
-          </button>
+           Chat
+             </button>
         )}
         <h4 className="rightbarTitle">User information</h4>
         <div className="rightbarInfo">
@@ -128,8 +157,13 @@ useEffect(()=>{
         </div>
         <h4 className="rightbarTitle">User friends</h4>
         <div className="rightbarFollowings">
+          
           {friends.map((friend) => (
-           <Showfriends message={friend}/>
+       <div>
+        { friend.members[0]!==user._id &&<Showfriends message={friend.members[0]}/>}
+        { friend.members[1]!==user._id && <Showfriends message={friend.members[1]}/>}
+         
+          </div>
              ))}
  
            {/*<Link

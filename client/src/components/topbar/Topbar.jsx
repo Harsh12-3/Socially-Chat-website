@@ -9,6 +9,7 @@ import { LOGOUT } from "../../context/AuthActions";
 import { io } from "socket.io-client";
 import { useState,useEffect } from "react";
 import axios from "axios";
+
 export default function Topbar() {
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -17,7 +18,7 @@ export default function Topbar() {
   const history = useHistory();
   const [user1,setUser]= useState(user);
   const socket = useRef();
-    
+const search=useRef();    
  
 
   
@@ -33,6 +34,35 @@ export default function Topbar() {
     };
     getUser();
   }, []);
+
+  const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    if (e.key === 'Enter') {
+    handlesearch();
+  }
+};
+function handlesearch(){
+  
+  
+  
+  const search1 = async (dispatch) => {
+    try{
+     
+      dispatch({ type: "LOGIN_SEARCH" , payload:search.current.value});
+      history.push("/search")
+
+    }catch(err){
+      console.log(err);
+      }
+   
+ 
+    
+
+    };
+  
+search1(dispatch);    
+
+};
 
   function handlesignout(){
     
@@ -56,7 +86,12 @@ export default function Topbar() {
      function videopage1(){
       history.push("/videos");
        }
-  return (
+ 
+       function notify(){
+        history.push("/notify");
+         }
+    
+       return (
     <div className="topbarContainer">
       <div className="topbarLeft">
         <Link to="/" style={{ textDecoration: "none" }}>
@@ -69,6 +104,8 @@ export default function Topbar() {
           <input
             placeholder="Search for friend, post or video"
             className="searchInput"
+            ref={search}
+            onKeyPress={handleKeypress}
           />
         </div>
       </div>
@@ -88,7 +125,7 @@ export default function Topbar() {
           </div>
           <div className="topbarIconItem">
             <Notifications />
-            <span className="topbarIconBadge">1</span>
+            <span className="topbarIconBadge" onClick={notify}>1</span>
           </div>          
         </div>
         <Link to={`/profile/${user.username}`}>

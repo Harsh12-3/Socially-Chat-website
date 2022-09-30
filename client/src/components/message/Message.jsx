@@ -18,7 +18,7 @@ useEffect(() => {
       }
     };
     getUser();
-  }, []);
+  }, [message]);
 
   return (
     <div className={own ? "message own" : "message"}>

@@ -76,3 +76,22 @@
     border-bottom: 1px dashed gray;
     font-size: 15px;
 }
+
+.postTopLeft1 {
+  display: flex;
+  align-items: center;
+  margin-top: 7px;
+}
+.togglediv {
+   margin-top: 7px;
+
+  }
+
+  .postCommentCreation{
+    height: 20px;
+    width: 300px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    font-size: 14px;
+    padding-left: 20px;
+  }

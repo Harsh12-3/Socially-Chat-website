@@ -5,6 +5,9 @@ const INITIAL_STATE = {
   user:JSON.parse(localStorage.getItem("user")) || null,
   isFetching: false,
   error: false,
+user2:null,
+count:0,
+notificationname:null,
 };
 
 
@@ -23,7 +26,10 @@ export const AuthContextProvider = ({ children }) => {
         user: state.user,
         isFetching: state.isFetching,
         error: state.error,
-        dispatch,
+       user2:state.user2,
+  count:state.count,
+  notificationname:state.notificationname,
+       dispatch,
       }}
     >
       {children}

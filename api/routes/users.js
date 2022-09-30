@@ -43,6 +43,24 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.delete("/userrr/:mail", async (req, res) => {
+    try {
+  console.log("first")
+  console.log(req.params.mail)
+
+      const res1=await User.deleteOne({email:req.params.mail});
+  
+  console.log("second");
+   
+        res.status(200).json("Account has been deleted");
+    } catch (err) {
+      console.log(err);
+ 
+      return res.status(500).json(err);
+    }
+  
+});
+
 //get a user
 router.get("/:userId", async (req, res) => {
   try {
@@ -64,9 +82,19 @@ router.get("/alluserId/:id", async (req, res) => {
   }
 });
 
+router.get("/find1111/:username", async (req, res) => {
+  try {
+    const user =  await User.find({username:req.params.username})
+  console.log(req.params.username);
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 router.get("/ff/:id", async (req, res) => {
-  console.log("upppp");
+  console.log(req.params.id);
   try {
     const user =  await User.findById(req.params.id)
     res.status(200).json(user);

@@ -11,18 +11,24 @@ useEffect(() => {
     
     const getUser = async () => {
       try {
-        const res = await axios.get("/users/ff/" + message.sender);
+        const res = await axios.get("/users/ff/" + message);
+        
         setUser(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     getUser();
-  }, []);
+  }, [message]);
+
+
 
   return (
     <>
-    <Link
+    
+    <div className="rightbarFollowings1">
+       
+   { friend && <Link
               to={"/profile/" + friend.username}
               style={{ textDecoration: "none" }}
             >
@@ -37,9 +43,13 @@ useEffect(() => {
                   className="rightbarFollowingImg"
                 />
                 <span className="rightbarFollowingName">{friend.username}</span>
+             
               </div>
             </Link>
+}
+</div>
 
+          
     </>     
     );
 }
